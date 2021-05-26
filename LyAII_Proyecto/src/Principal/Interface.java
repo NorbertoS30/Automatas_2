@@ -1,41 +1,42 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Principal;
-
-import java.awt.*;  
-import javax.swing.*; 
+import java.awt.*;
+import javax.swing.*;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import org.fife.ui.rtextarea.*;
 import org.fife.ui.rsyntaxtextarea.*;
 
-public class Interface
-{ 
-    
-    
-    Interface()  
-    {  
-        JFrame frame = new JFrame();
-        JPanel cp = new JPanel(new GridLayout());
+/**
+ * A simple example showing how to use RSyntaxTextArea to add Java syntax
+ * highlighting to a Swing application.
+ */
+public class Interface extends JFrame {
 
-        RSyntaxTextArea textArea = new RSyntaxTextArea(100, 100);
-        textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-        textArea.setCodeFoldingEnabled(true);
-        RTextScrollPane sp = new RTextScrollPane(textArea);
-        sp.setPreferredSize(new Dimension(200, 200));
-        cp.add(sp);
+   private static final long serialVersionUID = 1L;
 
-        frame.setContentPane(cp);
-        //setSize(300,300);
-        frame.setTitle("Text Editor Demo");
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-    }  
-    
-     public static void main(String[] args) {
-        
-         Interface In = new Interface();
-    }
-    
+   public Interface() {
+
+      JPanel cp = new JPanel(new BorderLayout());
+
+      RSyntaxTextArea textArea = new RSyntaxTextArea(20, 60);
+      textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+      textArea.setCodeFoldingEnabled(true);
+      RTextScrollPane sp = new RTextScrollPane(textArea);
+      cp.add(sp);
+
+      setContentPane(cp);
+      setTitle("Text Editor Demo");
+      setDefaultCloseOperation(EXIT_ON_CLOSE);
+      pack();
+      setLocationRelativeTo(null);
+
+   }
+
+   public static void main(String[] args) {
+      // Start all Swing applications on the EDT.
+      SwingUtilities.invokeLater(new Runnable() {
+         public void run() {
+            new Interface().setVisible(true);
+         }
+      });
+   }
+
 }
