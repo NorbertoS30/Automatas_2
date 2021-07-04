@@ -1,18 +1,23 @@
 package Principal;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java_cup.runtime.Symbol;
 import javax.swing.*;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-public class Example 
+public class Example_compil 
 {
     JFrame frame = new JFrame("JFrame Example");  
     RSyntaxTextArea textArea = new RSyntaxTextArea(100, 100);
     JTextArea txta_Errores = new JTextArea();
     
-    public Example() {
+    public Example_compil() {
         
         
         JPanel jp_box_v = new JPanel();
@@ -51,10 +56,31 @@ public class Example
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
         frame.setVisible(true);  
         
+        btn_compilar.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                String cadena_comp = textArea.getText();
+                Sintax sintax = new Sintax(new LexerCup(new StringReader(cadena_comp)));
+                
+                try {
+                    sintax.parse();
+                    txta_Errores.setText("Analisis Correcto :D");
+                    txta_Errores.setForeground(new Color(25, 111, 61));
+                    //Sintax s = new Sintax(new codigo.LexerCup(new StringReader(cadena_comp)));
+                } catch (Exception ex) {
+                    Symbol sym = sintax.getS();
+                    txta_Errores.setText("Error de la Sintaxis: Linea: "+(sym.right + 1)+", Columna: "+(sym.left + 1)+", Mensaje: \""+(sym.value)+"\"");
+                    txta_Errores.setForeground(Color.RED);
+                }
+            }
+        });
+        
         
     }
     
     public static void main(String[] args) {
-        Example ex = new Example();
+        Example_compil ex = new Example_compil();
    }
 }

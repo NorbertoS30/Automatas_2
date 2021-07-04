@@ -1,4 +1,4 @@
-package Otros;
+package Pruebas;
 
 import java.awt.*;
 import java.beans.*;
